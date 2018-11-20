@@ -22,15 +22,15 @@ else()
 endif()
 
 ## Add serial library
-add_library(${PROJECT_NAME} SHARED ${serial_SRCS})
+add_library(${PROJECT_NAME} STATIC ${serial_SRCS})
 
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>)
 
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} ${FOUNDATION_LIBRARY} ${IOKIT_LIBRARY})
 elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} rt pthread)
+    target_link_libraries(${PROJECT_NAME} PUBLIC rt pthread)
 else()
-    target_link_libraries(${PROJECT_NAME} setupapi)
+    target_link_libraries(${PROJECT_NAME} PUBLIC setupapi)
 endif()
 
