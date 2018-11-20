@@ -29,9 +29,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_SOUR
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} ${FOUNDATION_LIBRARY} ${IOKIT_LIBRARY})
 elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} PUBLIC rt pthread)
+    target_link_libraries(${PROJECT_NAME} rt pthread)
 else()
-    target_link_libraries(${PROJECT_NAME} PUBLIC setupapi)
+    target_link_libraries(${PROJECT_NAME} setupapi)
 endif()
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/serial DESTINATION "include")
