@@ -34,3 +34,5 @@ else()
     target_link_libraries(${PROJECT_NAME} PUBLIC setupapi)
 endif()
 
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/serial DESTINATION "inculde")
+install(TARGETS ${PROJECT_NAME} DESTINATION "lib")
