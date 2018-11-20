@@ -17,22 +17,28 @@ elseif(UNIX)
     list(APPEND serial_SRCS src/impl/list_ports/list_ports_linux.cc)
 else()
     # If windows
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
     list(APPEND serial_SRCS src/impl/win.cc)
     list(APPEND serial_SRCS src/impl/list_ports/list_ports_win.cc)
 endif()
 
 ## Add serial library
-add_library(${PROJECT_NAME} STATIC ${serial_SRCS})
+add_library(${PROJECT_NAME} SHARED ${serial_SRCS})
 
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>)
 
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} ${FOUNDATION_LIBRARY} ${IOKIT_LIBRARY})
+    install(TARGETS ${PROJECT_NAME} DESTINATION "lib")
 elseif(UNIX)
     target_link_libraries(${PROJECT_NAME} rt pthread)
+    install(TARGETS ${PROJECT_NAME} DESTINATION "lib")
 else()
     target_link_libraries(${PROJECT_NAME} setupapi)
+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin")
+    install(TARGETS ${PROJECT_NAME} ARCHIVE DESTINATION "lib")  
 endif()
 
+
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/serial DESTINATION "include")
-install(TARGETS ${PROJECT_NAME} DESTINATION "lib")
+
